@@ -1,10 +1,11 @@
-package co.and.mvvmroomandroidversion;
+package co.and.mvvmroomandroidversion.repositories;
 
 import android.app.Application;
 
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
+import co.and.mvvmroomandroidversion.NoteDataBase;
 import co.and.mvvmroomandroidversion.asyntask.DeleteAllNotesAsynTask;
 import co.and.mvvmroomandroidversion.asyntask.DeleteNoteAsynTask;
 import co.and.mvvmroomandroidversion.asyntask.InsertNoteAsynTask;
@@ -26,11 +27,11 @@ public class NoteRepository {
         new InsertNoteAsynTask(noteDao).execute(note);
 
     }
-    public void update (Note note){
+    public void update(Note note){
         new UpdateNoteAsyncTask(noteDao).execute(note);
 
     }
-    public void delete (Note note){
+    public void delete(Note note){
         new DeleteNoteAsynTask(noteDao).execute(note);
 
     }
@@ -38,5 +39,9 @@ public class NoteRepository {
     public void deleteAllNotes (){
         new DeleteAllNotesAsynTask(noteDao).execute();
 
+    }
+
+    public LiveData<List<Note>> getAllNotes(){
+        return allNotes;
     }
 }
