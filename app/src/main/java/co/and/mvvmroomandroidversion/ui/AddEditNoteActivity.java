@@ -18,6 +18,7 @@ public class AddEditNoteActivity extends AppCompatActivity {
     private EditText editTextDescription;
     private NumberPicker numberPickerPriority;
 
+    public static final String EXTRA_ID =  "co.and.mvvmroomandroidversion.ui.EXTRA_ID";
     public static final String EXTRA_TITLE =  "co.and.mvvmroomandroidversion.ui.EXTRA_TITLE";
     public static final String EXTRA_DESCRIPTION =  "co.and.mvvmroomandroidversion.ui.EXTRA_DESCRIPTION";
     public static final String EXTRA_PRIORITY =  "co.and.mvvmroomandroidversion.ui.EXTRA_PRIORITY";
@@ -35,7 +36,18 @@ public class AddEditNoteActivity extends AppCompatActivity {
         numberPickerPriority.setMinValue(1);
 
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
-        setTitle("Add Note");
+
+        Intent intent = getIntent();
+
+        if(intent.hasExtra(EXTRA_ID)){
+            editTextTitle.setText(intent.getStringExtra(EXTRA_TITLE));
+            editTextDescription.setText(intent.getStringExtra(EXTRA_DESCRIPTION));
+            numberPickerPriority.setValue(intent.getIntExtra(EXTRA_PRIORITY,1));
+            setTitle("Edit Note");
+
+        }else{
+            setTitle("Add Note");
+        }
     }
 
     @Override
@@ -69,6 +81,12 @@ public class AddEditNoteActivity extends AppCompatActivity {
         data.putExtra(EXTRA_TITLE,title);
         data.putExtra(EXTRA_DESCRIPTION,description);
         data.putExtra(EXTRA_PRIORITY,pickerPriority);
+
+        int id = getIntent().getIntExtra(EXTRA_ID,-1);
+        if(id != -1){
+            data.putExtra(EXTRA_ID,id);
+        }
+
         setResult(RESULT_OK,data);
         finish();
     }
